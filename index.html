@@ -8,232 +8,584 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg:#0b0b0b;
-      --panel:#101010;
-      --text:#f5f5f5;
-      --muted:#cfcfcf;
+      --bg:#070707;
+      --panel:#0f0f10;
+      --panel2:#121214;
+      --text:#f4f4f5;
+      --muted:rgba(244,244,245,.72);
       --line:rgba(255,255,255,.14);
       --shadow:0 18px 60px rgba(0,0,0,.55);
       --radius:18px;
+      --radius2:22px;
+      --max:1100px;
     }
     *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
     body{
       margin:0;
-      background:var(--bg);
+      background: radial-gradient(900px 600px at 20% 0%, rgba(255,255,255,.06), transparent 60%),
+                  radial-gradient(900px 600px at 80% 0%, rgba(255,255,255,.04), transparent 60%),
+                  var(--bg);
       color:var(--text);
       font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      overflow-x:hidden;
     }
-    a{color:var(--text)}
-    .wrap{max-width:1050px;margin:0 auto;padding:24px 18px 60px}
-    .top{
-      display:flex;align-items:center;justify-content:space-between;gap:14px;
-      padding:10px 2px 18px;
-    }
-    .badge{
-      display:inline-flex;align-items:center;gap:10px;
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 18px}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:10px;
+      padding:12px 14px;
+      border-radius:14px;
       text-decoration:none;
+      font-weight:800;
+      border:1px solid rgba(255,255,255,.22);
+      background:rgba(255,255,255,.06);
+      transition:.18s ease;
+      letter-spacing:.2px;
     }
-    .badge strong{
-      font-family:Oswald, Inter, sans-serif;
-      letter-spacing:.6px;
-      text-transform:uppercase;
-      font-size:14px;
-      opacity:.95;
-    }
-    .pill{
+    .btn:hover{transform:translateY(-1px); border-color:rgba(255,255,255,.35)}
+    .btn.primary{background:#fff; color:#000; border-color:#fff}
+    .btn.ghost{background:transparent}
+    .chip{
+      display:inline-flex; align-items:center;
+      padding:8px 10px;
+      border-radius:999px;
       border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      color:var(--muted);
+      font-size:13px;
+      font-weight:650;
+    }
+
+    /* Top bar */
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      background:rgba(0,0,0,.72);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid rgba(255,255,255,.10);
+    }
+    .topbarInner{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:14px;
+      padding:10px 0;
+    }
+    .topbar strong{
+      font-family:Oswald, Inter, sans-serif;
+      letter-spacing:.9px;
+      text-transform:uppercase;
+      font-size:13px;
+      color:rgba(255,255,255,.92);
+    }
+
+    /* Header */
+    header{
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background:linear-gradient(to bottom, rgba(255,255,255,.03), transparent);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px;
+      padding:16px 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      text-decoration:none;
+      min-width:200px;
+    }
+    .brand img{
+      width:38px; height:38px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.18);
+      filter:grayscale(1) contrast(1.15);
+      background:#111;
+    }
+    .brandText{
+      display:flex; flex-direction:column; line-height:1.05;
+    }
+    .brandText span:nth-child(1){
+      font-family:Oswald, Inter, sans-serif;
+      text-transform:uppercase;
+      letter-spacing:.9px;
+      font-weight:700;
+      font-size:14px;
+    }
+    .brandText span:nth-child(2){
+      color:var(--muted);
+      font-size:12px;
+      font-weight:600;
+    }
+    .links{
+      display:flex; align-items:center; gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .links a{
+      text-decoration:none;
       padding:10px 12px;
       border-radius:999px;
-      text-decoration:none;
-      font-weight:600;
+      border:1px solid rgba(255,255,255,.12);
       background:rgba(255,255,255,.03);
+      color:var(--muted);
+      font-weight:700;
+      font-size:13px;
+      transition:.18s ease;
     }
-    .hero{
-      position:relative;
-      border-radius:var(--radius);
-      overflow:hidden;
-      border:1px solid var(--line);
-      box-shadow:var(--shadow);
-      background:#000;
-      min-height:420px;
-    }
-    /* Use your Facebook cover image here */
-    .hero::before{
-      content:"";
-      position:absolute;inset:0;
-      background:
-        linear-gradient(90deg, rgba(0,0,0,.92) 0%, rgba(0,0,0,.62) 45%, rgba(0,0,0,.35) 100%),
-        url("cover.jpg") center/cover no-repeat;
-      filter:grayscale(1) contrast(1.15) brightness(.75);
-      transform:scale(1.02);
-    }
-    .heroInner{
-      position:relative;
-      padding:28px;
+    .links a:hover{color:var(--text); border-color:rgba(255,255,255,.25); transform:translateY(-1px)}
+
+    /* Hero (Stacy-style: text + big image) */
+    .hero{padding:26px 0 6px}
+    .heroGrid{
       display:grid;
-      grid-template-columns: 140px 1fr;
+      grid-template-columns: 1.05fr .95fr;
       gap:18px;
-      align-items:end;
-      min-height:420px;
+      align-items:stretch;
     }
-    .logo{
-      width:130px;height:130px;
-      border-radius:999px;
-      border:2px solid rgba(255,255,255,.55);
-      background:#111;
+    .heroText{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.03);
+      border-radius:var(--radius2);
+      padding:26px;
+      box-shadow:var(--shadow);
+      position:relative;
       overflow:hidden;
-      box-shadow: 0 18px 50px rgba(0,0,0,.65);
     }
-    /* Use your Facebook logo file here */
-    .logo img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.15)}
+    .heroText:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(600px 280px at 30% 0%, rgba(255,255,255,.07), transparent 60%);
+      pointer-events:none;
+    }
     h1{
       margin:0;
       font-family:Oswald, Inter, sans-serif;
-      font-size: clamp(40px, 5vw, 62px);
-      line-height: .95;
-      letter-spacing: .2px;
       text-transform:uppercase;
+      letter-spacing:.4px;
+      line-height:.92;
+      font-size: clamp(44px, 5.3vw, 74px);
     }
     .sub{
-      margin:10px 0 0;
+      margin:14px 0 0;
       color:var(--muted);
+      line-height:1.6;
       font-size:16px;
-      line-height:1.5;
-      max-width:60ch;
+      max-width:62ch;
+      position:relative;
     }
-    .meta{
-      display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;
+    .heroBadges{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px}
+    .ctaRow{display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; position:relative}
+
+    .heroImage{
+      border-radius:var(--radius2);
+      border:1px solid rgba(255,255,255,.12);
+      overflow:hidden;
+      box-shadow:var(--shadow);
+      background:#000;
+      position:relative;
+      min-height:360px;
     }
-    .tag{
-      border:1px solid var(--line);
-      padding:8px 10px;
+    .heroImage::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.70) 0%, rgba(0,0,0,.20) 55%, rgba(0,0,0,.10) 100%),
+        url("Cover.png") center/cover no-repeat;
+      filter:grayscale(1) contrast(1.35) brightness(.62);
+      transform:scale(1.03);
+    }
+    .logoFloat{
+      position:absolute;
+      left:18px; bottom:18px;
+      width:116px; height:116px;
       border-radius:999px;
+      border:2px solid rgba(255,255,255,.60);
+      overflow:hidden;
+      background:#111;
+      box-shadow: 0 18px 50px rgba(0,0,0,.65);
+    }
+    .logoFloat img{width:100%; height:100%; object-fit:cover; filter:grayscale(1) contrast(1.15)}
+    .heroImageLabel{
+      position:absolute;
+      right:16px; bottom:16px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(0,0,0,.45);
+      color:rgba(255,255,255,.85);
+      font-weight:800;
       font-size:13px;
-      background:rgba(255,255,255,.03);
-      color:var(--muted);
-    }
-    .ctaRow{
-      display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;
-    }
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;
-      padding:12px 14px;
-      border-radius:12px;
-      text-decoration:none;
-      font-weight:700;
-      letter-spacing:.2px;
-      border:1px solid rgba(255,255,255,.22);
-      background:rgba(255,255,255,.06);
-    }
-    .btn.primary{
-      background:#fff;color:#000;border-color:#fff;
     }
 
-    .grid{
-      margin-top:18px;
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:14px;
-    }
-    .card{
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      background:rgba(255,255,255,.03);
-      padding:18px;
-    }
-    .card h2{
-      margin:0 0 10px;
+    /* Join section */
+    section{padding:34px 0}
+    .sectionTitle{
       font-family:Oswald, Inter, sans-serif;
       text-transform:uppercase;
-      letter-spacing:.6px;
+      letter-spacing:1px;
       font-size:22px;
+      margin:0 0 14px;
     }
-    .list{
-      margin:0;padding-left:18px;color:var(--muted);line-height:1.7;
+    .kicker{color:var(--muted); margin:0 0 18px; line-height:1.6; max-width:70ch}
+    .tiles{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:12px;
     }
-    .footer{
-      margin-top:18px;
+    .tile{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.03);
+      border-radius:var(--radius);
+      padding:16px;
+      min-height:110px;
+    }
+    .tile strong{display:block; font-weight:900; margin-bottom:6px}
+    .tile span{color:var(--muted); line-height:1.55; font-size:14px}
+
+    /* Pillars (3 cards like Stacy: Sculpt/Strengthen/Burn) */
+    .pillars{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    .pillar{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.03);
+      border-radius:var(--radius2);
+      overflow:hidden;
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+    }
+    .pillarImg{
+      height:220px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.10) 0%, rgba(0,0,0,.72) 100%),
+        url("Cover.png") center/cover no-repeat;
+      filter:grayscale(1) contrast(1.25) brightness(.72);
+    }
+    .pillarBody{padding:18px}
+    .pillarBody h3{
+      margin:0 0 8px;
+      font-family:Oswald, Inter, sans-serif;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      font-size:26px;
+    }
+    .pillarBody p{margin:0; color:var(--muted); line-height:1.65}
+
+    /* Testimonials */
+    .quoteCard{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.03);
+      border-radius:var(--radius2);
+      padding:22px;
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:12px;
+      align-items:start;
+    }
+    .quoteText{
+      font-size:16px;
+      line-height:1.7;
+      color:rgba(255,255,255,.86);
+      margin:0;
+    }
+    .quoteBy{
+      margin-top:12px;
+      color:var(--muted);
+      font-weight:800;
+      letter-spacing:.3px;
+    }
+    .quoteNav{display:flex; gap:8px; justify-content:flex-end}
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.28);
+      background:rgba(255,255,255,.10);
+      cursor:pointer;
+    }
+    .dot.active{background:#fff; border-color:#fff}
+
+    /* Subscribe + footer */
+    .subscribe{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.03);
+      border-radius:var(--radius2);
+      padding:20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .subLeft strong{
+      font-family:Oswald, Inter, sans-serif;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      font-size:18px;
+      display:block;
+      margin-bottom:6px;
+    }
+    .subLeft span{color:var(--muted)}
+    .subRight{display:flex; gap:10px; flex-wrap:wrap}
+    .input{
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(0,0,0,.35);
+      color:#fff;
+      min-width:240px;
+      outline:none;
+    }
+    footer{
+      padding:26px 0 46px;
       color:rgba(255,255,255,.55);
       font-size:12px;
-      padding:0 4px;
     }
+    .footGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:12px;
+      margin-top:16px;
+    }
+    .footCol{
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.02);
+      border-radius:var(--radius);
+      padding:14px;
+    }
+    .footCol strong{
+      display:block;
+      margin-bottom:8px;
+      font-family:Oswald, Inter, sans-serif;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:rgba(255,255,255,.78);
+    }
+    .footCol a{display:block; color:rgba(255,255,255,.65); text-decoration:none; padding:6px 0; font-weight:700}
+    .footCol a:hover{color:#fff}
 
-    @media (max-width: 820px){
-      .heroInner{grid-template-columns:1fr;align-items:start;min-height:440px}
-      .logo{width:110px;height:110px}
-      .grid{grid-template-columns:1fr}
+    /* Responsive */
+    @media (max-width: 980px){
+      .tiles{grid-template-columns: repeat(2, 1fr)}
+      .pillars{grid-template-columns: 1fr}
+      .heroGrid{grid-template-columns: 1fr}
+      .heroImage{min-height:320px}
+      .footGrid{grid-template-columns: 1fr}
+      .links{display:none}
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="top">
-      <a class="badge" href="#">
-        <span style="width:10px;height:10px;border-radius:99px;background:#fff;display:inline-block;opacity:.9"></span>
-        <strong>Marie’s</strong>
-      </a>
 
-      <!-- Optional: link these to your real pages later -->
-      <a class="pill" href="#contact">Contact</a>
+  <!-- Top announcement bar -->
+  <div class="topbar">
+    <div class="wrap">
+      <div class="topbarInner">
+        <strong>Start your free consult today</strong>
+        <a class="btn primary" href="#contact">SIGN ME UP</a>
+      </div>
     </div>
+  </div>
 
-    <section class="hero">
-      <div class="heroInner">
-        <div class="logo">
+  <!-- Header / Nav -->
+  <header>
+    <div class="wrap">
+      <div class="nav">
+        <a class="brand" href="#top">
           <img src="logo.png" alt="Marie’s logo">
-        </div>
+          <div class="brandText">
+            <span>Marie’s</span>
+            <span>The Gym and Milford Track</span>
+          </div>
+        </a>
 
-        <div>
-          <h1>Marie’s<br/>The Gym and Milford Track</h1>
-          <p class="sub"><strong>Your workout + your food, solved.</strong> Strength-first training with real-life nutrition support.</p>
+        <nav class="links" aria-label="Primary">
+          <a href="#programs">Programs</a>
+          <a href="#about">About</a>
+          <a href="#results">Results</a>
+          <a href="#contact">Let’s Chat</a>
+        </nav>
 
-          <div class="meta">
-            <span class="tag">Little Rock, AR</span>
-            <span class="tag">Training</span>
-            <span class="tag">Meal strategy</span>
-            <span class="tag">Accountability</span>
+        <a class="btn" href="#contact">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main id="top" class="hero">
+    <div class="wrap">
+      <div class="heroGrid">
+        <div class="heroText">
+          <h1>Marie’s<br>THE GYM AND MILFORD TRACK</h1>
+          <p class="sub">
+            <strong>Your workout + your food, solved.</strong>
+            Strength-first training with real-life nutrition support.
+          </p>
+
+          <div class="heroBadges">
+            <span class="chip">Little Rock, AR</span>
+            <span class="chip">Strength</span>
+            <span class="chip">Meal strategy</span>
+            <span class="chip">Accountability</span>
           </div>
 
           <div class="ctaRow" id="contact">
-            <!-- Replace these links with your real ones -->
+            <!-- Replace these URLs with your real ones -->
             <a class="btn primary" href="https://www.facebook.com/" target="_blank" rel="noopener">Message on Facebook</a>
             <a class="btn" href="mailto:hello@YOURDOMAIN.com">Email</a>
-            <a class="btn" href="#" title="Add your booking link later">Book a consult</a>
+            <a class="btn ghost" href="#programs">See Programs</a>
           </div>
         </div>
+
+        <div class="heroImage" aria-label="Cover image">
+          <div class="logoFloat"><img src="logo.png" alt="Marie’s"></div>
+          <div class="heroImageLabel">Your workout + your food, solved.</div>
+        </div>
       </div>
-    </section>
-
-    <div class="grid">
-      <section class="card">
-        <h2>What this is</h2>
-        <ul class="list">
-          <li>Simple, repeatable programming (no fluff)</li>
-          <li>Food that fits real life (not “start over Monday”)</li>
-          <li>Consistency, momentum, and visible results</li>
-        </ul>
-      </section>
-
-      <section class="card">
-        <h2>Quick info</h2>
-        <ul class="list">
-          <li><strong>Location:</strong> Little Rock, AR</li>
-          <li><strong>Best for:</strong> busy people who want structure</li>
-          <li><strong>Next step:</strong> message us to start</li>
-        </ul>
-      </section>
     </div>
+  </main>
 
-    <div class="footer">© <span id="y"></span> Marie’s — The Gym and Milford Track</div>
-  </div>
+  <!-- Join / Movement -->
+  <section id="programs">
+    <div class="wrap">
+      <h2 class="sectionTitle">Join the movement</h2>
+      <p class="kicker">A simple system that builds strength, confidence, and consistency — with food support that fits real life.</p>
+
+      <div class="tiles">
+        <div class="tile"><strong>Strength-first</strong><span>Repeatable programming that works.</span></div>
+        <div class="tile"><strong>Real-life nutrition</strong><span>No “start over Monday” energy.</span></div>
+        <div class="tile"><strong>Accountability</strong><span>Structure + support to stay on track.</span></div>
+        <div class="tile"><strong>Minimal equipment</strong><span>Designed to be doable and consistent.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pillars (Sculpt / Strengthen / Burn style) -->
+  <section id="about">
+    <div class="wrap">
+      <h2 class="sectionTitle">How it works</h2>
+      <p class="kicker">Inspired by the “pillars” layout you like — three clear promises, no fluff.</p>
+
+      <div class="pillars">
+        <article class="pillar">
+          <div class="pillarImg"></div>
+          <div class="pillarBody">
+            <h3>Sculpt</h3>
+            <p>Build lean, visible shape with controlled strength work and smart progressions.</p>
+          </div>
+        </article>
+
+        <article class="pillar">
+          <div class="pillarImg"></div>
+          <div class="pillarBody">
+            <h3>Strengthen</h3>
+            <p>Get strong on purpose — better movement, better posture, better confidence.</p>
+          </div>
+        </article>
+
+        <article class="pillar">
+          <div class="pillarImg"></div>
+          <div class="pillarBody">
+            <h3>Fuel</h3>
+            <p>Food strategy you can actually follow — so results stick and life stays enjoyable.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="results">
+    <div class="wrap">
+      <h2 class="sectionTitle">What people say</h2>
+      <p class="kicker">Drop 3–5 testimonials here and this becomes a powerful conversion section.</p>
+
+      <div class="quoteCard">
+        <div>
+          <p class="quoteText" id="quoteText">
+            “This is where your fitness finally clicks. The programming is simple, the coaching is clear, and the food piece makes it sustainable.”
+          </p>
+          <div class="quoteBy" id="quoteBy">— CLIENT NAME</div>
+        </div>
+        <div class="quoteNav" aria-label="Testimonial navigation">
+          <button class="dot active" aria-label="Testimonial 1" onclick="setQuote(0)"></button>
+          <button class="dot" aria-label="Testimonial 2" onclick="setQuote(1)"></button>
+          <button class="dot" aria-label="Testimonial 3" onclick="setQuote(2)"></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Subscribe + Footer -->
+  <section>
+    <div class="wrap">
+      <div class="subscribe">
+        <div class="subLeft">
+          <strong>For the latest news</strong>
+          <span>Subscribe for updates, drops, and openings.</span>
+        </div>
+        <div class="subRight">
+          <!-- No backend on GitHub Pages; this uses a mailto as a simple “free” option -->
+          <input class="input" id="email" type="email" placeholder="Email address" />
+          <a class="btn primary" href="#" onclick="subscribeEmail(event)">Send</a>
+        </div>
+      </div>
+
+      <footer>
+        <div>© <span id="y"></span> Marie’s — The Gym and Milford Track</div>
+
+        <div class="footGrid">
+          <div class="footCol">
+            <strong>Menu</strong>
+            <a href="#programs">Programs</a>
+            <a href="#about">About</a>
+            <a href="#results">Results</a>
+            <a href="#contact">Let’s chat</a>
+          </div>
+
+          <div class="footCol">
+            <strong>Resources</strong>
+            <a href="#programs">Getting started</a>
+            <a href="#about">How it works</a>
+            <a href="#results">Testimonials</a>
+          </div>
+
+          <div class="footCol">
+            <strong>Social</strong>
+            <a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a>
+            <a href="#" target="_blank" rel="noopener">Instagram</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </section>
 
   <script>
     document.getElementById("y").textContent = new Date().getFullYear();
+
+    const quotes = [
+      { text: "“This is where your fitness finally clicks. The programming is simple, the coaching is clear, and the food piece makes it sustainable.”", by: "— CLIENT NAME" },
+      { text: "“I stopped starting over. The structure + accountability made it easy to stay consistent.”", by: "— CLIENT NAME" },
+      { text: "“Strong, simple, and realistic. Exactly what I needed.”", by: "— CLIENT NAME" }
+    ];
+
+    function setQuote(i){
+      document.getElementById("quoteText").textContent = quotes[i].text;
+      document.getElementById("quoteBy").textContent = quotes[i].by;
+      document.querySelectorAll(".dot").forEach((d, idx)=> d.classList.toggle("active", idx===i));
+    }
+
+    function subscribeEmail(e){
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const to = "hello@YOURDOMAIN.com"; // change this
+      const subject = encodeURIComponent("Marie’s updates subscription");
+      const body = encodeURIComponent(`Please add me to updates.\n\nEmail: ${email || "(not provided)"}`);
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    }
   </script>
 </body>
 </html>
+
